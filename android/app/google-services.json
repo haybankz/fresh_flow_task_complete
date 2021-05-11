@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "986615822830",
+    "project_id": "freshflow-fc9a9",
+    "storage_bucket": "freshflow-fc9a9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:986615822830:android:c941ec0c33728b12df36ff",
+        "android_client_info": {
+          "package_name": "ai.freshflow"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "986615822830-j0pris2d71b7c01fa45culj8duk42hvb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArrujFRaHYytNGH-0ekplXvXikdObwxVU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "986615822830-j0pris2d71b7c01fa45culj8duk42hvb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "986615822830-7ke513nsmha77b5gp27bqiopb1idhsqd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ai.freshflow"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
