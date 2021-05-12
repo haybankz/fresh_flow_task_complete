@@ -7,7 +7,7 @@ class GetAllItems {
 
   GetAllItems({@required this.itemRepository});
 
-  Stream<List<Item>> call() {
+  Future<List<Item>> call() {
     return itemRepository.getAllItems();
   }
 }

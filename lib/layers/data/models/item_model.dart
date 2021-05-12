@@ -14,15 +14,13 @@ class ItemModel extends Item {
 
   );
 
-  factory ItemModel.fromJson(Map<String, dynamic> json) {
-    return ItemModel(
+  static ItemModel fromJson(Map<String, dynamic> json) => ItemModel(
 
       name: json['name'],
       price: json['price'],
       url: json['url']
 
-    );
-  }
+  );
 
   Map<String, dynamic> toJson() {
     return {

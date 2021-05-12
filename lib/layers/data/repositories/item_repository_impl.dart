@@ -14,9 +14,16 @@ class ItemRepositoryImpl implements ItemRepository {
 });
 
   @override
-  Stream<List<Item>> getAllItems() {
+  Future<List<Item>> getAllItems() async {
     // TODO: implement getAllItems
-    throw UnimplementedError();
+    List<Item> items = await remoteDatasource.getAllItems();
+    if(items.length > 0){
+      //TODO save items to localDB
+    }
+
+    return items;
+
+
   }
 
 }
