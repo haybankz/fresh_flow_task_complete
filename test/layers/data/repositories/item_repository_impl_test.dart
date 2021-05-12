@@ -1,8 +1,8 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fresh_flow_task/commons/network/network_info.dart';
-import 'package:fresh_flow_task/layers/data/datasources/local_datasource.dart';
-import 'package:fresh_flow_task/layers/data/datasources/remote_datasource.dart';
+import 'package:fresh_flow_task/layers/data/datasources/item_local_datasource.dart';
+import 'package:fresh_flow_task/layers/data/datasources/item_remote_datasource.dart';
 import 'package:fresh_flow_task/layers/data/repositories/item_repository_impl.dart';
 import 'package:fresh_flow_task/layers/domain/repositories/item_repository.dart';
 import 'package:mockito/mockito.dart';
@@ -13,10 +13,10 @@ import '../../../test_resources/fake/item_data_fake_factory.dart';
 class NetworkInfoMock extends Mock implements NetworkInfo {}
 
 class LocalDatasourceMock extends Mock
-    implements LocalDatasource {}
+    implements ItemLocalDatasource {}
 
 class RemoteDatasourceMock extends Mock
-    implements RemoteDatasource {}
+    implements ItemRemoteDatasource {}
 
 
 

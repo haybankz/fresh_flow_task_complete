@@ -4,13 +4,13 @@ import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fresh_flow_task/commons/network/network_info.dart';
-import 'package:fresh_flow_task/layers/data/datasources/local_datasource.dart';
-import 'package:fresh_flow_task/layers/data/datasources/remote_datasource.dart';
+import 'package:fresh_flow_task/layers/data/datasources/item_local_datasource.dart';
+import 'package:fresh_flow_task/layers/data/datasources/item_remote_datasource.dart';
 import 'package:fresh_flow_task/layers/data/repositories/item_repository_impl.dart';
 import 'package:fresh_flow_task/layers/domain/repositories/item_repository.dart';
 import 'package:fresh_flow_task/layers/domain/usecases/get_all_items.dart';
-import 'package:fresh_flow_task/layers/local/datasources/local_datasource_impl.dart';
-import 'package:fresh_flow_task/layers/network/datasources/remote_datasource_impl.dart';
+import 'package:fresh_flow_task/layers/local/datasources/item_local_datasource_impl.dart';
+import 'package:fresh_flow_task/layers/network/datasources/item_remote_datasource_impl.dart';
 import 'package:fresh_flow_task/layers/presentation/notifiers/item_notifier.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -46,12 +46,12 @@ Future<void> init() async {
 
 
   // * Network Layer
-  sl.registerFactory<RemoteDatasource>(
-      () => RemoteDatasourceImpl(fireCloud: sl()));
+  sl.registerFactory<ItemRemoteDatasource>(
+      () => ItemRemoteDatasourceImpl(fireCloud: sl()));
 
   // * Local Layer
-  sl.registerFactory<LocalDatasource>(
-      () => LocalDatasourceImpl(sharedPreferences: sl()));
+  sl.registerFactory<ItemLocalDatasource>(
+      () => ItemLocalDatasourceImpl(sharedPreferences: sl()));
 
 
 
