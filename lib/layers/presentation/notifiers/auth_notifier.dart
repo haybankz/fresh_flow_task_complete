@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:fresh_flow_task/layers/domain/usecases/get_cache_user.dart';
 import 'package:fresh_flow_task/layers/domain/usecases/login_usecase.dart';
 import 'package:fresh_flow_task/layers/domain/usecases/logout_usecase.dart';
 
 class AuthNotifier extends ChangeNotifier {
 
-  final Login login;
-  final Logout logout;
+  Login _login;
+  Logout _logout;
+  GetCacheUser _getCacheUser;
 
   AuthNotifier({
-    @required this.login, @required this.logout
-  });
+    @required login, @required logout,
+    @required getCacheUser
+  }){
+    _login = login;
+    _logout = logout;
+    _getCacheUser = getCacheUser;
+  }
 
   bool isLoading = false;
   String userEmail;
@@ -17,11 +24,14 @@ class AuthNotifier extends ChangeNotifier {
 
   Future<void> loginUser(String email, String password) async{
     isLoading = true;
+    userEmail = null;
+    error = null;
     notifyListeners();
 
     try {
 
-      userEmail = await login.call(email, password);
+      userEmail = await _login.call(email, password);
+      // notifyListeners();
 
 
     }catch(e){
@@ -34,13 +44,13 @@ class AuthNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> loginOut() async{
+  Future<void> logOut() async{
     isLoading = true;
     notifyListeners();
 
     try {
 
-       await logout.call();
+       await _logout.call();
 
 
     }catch(e){
@@ -51,6 +61,10 @@ class AuthNotifier extends ChangeNotifier {
     isLoading = false;
     // notify UI
     notifyListeners();
+  }
+
+  bool isUserLoggedIn(){
+    return _getCacheUser.call();
   }
 
 }

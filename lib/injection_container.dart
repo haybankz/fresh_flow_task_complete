@@ -14,6 +14,7 @@ import 'package:fresh_flow_task/layers/data/repositories/item_repository_impl.da
 import 'package:fresh_flow_task/layers/domain/repositories/auth_repository.dart';
 import 'package:fresh_flow_task/layers/domain/repositories/item_repository.dart';
 import 'package:fresh_flow_task/layers/domain/usecases/get_all_items.dart';
+import 'package:fresh_flow_task/layers/domain/usecases/get_cache_user.dart';
 import 'package:fresh_flow_task/layers/domain/usecases/login_usecase.dart';
 import 'package:fresh_flow_task/layers/domain/usecases/logout_usecase.dart';
 import 'package:fresh_flow_task/layers/local/datasources/auth_local_datasource_impl.dart';
@@ -36,8 +37,9 @@ Future<void> init() async {
   });
 
   sl.registerFactory(() => GetAllItems(itemRepository: sl()));
-  sl.registerFactory(() => Login(authRepository: sl()));
-  sl.registerFactory(() => Logout(authRepository: sl()));
+  sl.registerFactory(() => Login(authRepository: sl<AuthRepository>()));
+  sl.registerFactory(() => Logout(authRepository: sl<AuthRepository>()));
+  sl.registerFactory(() => GetCacheUser(authRepository: sl<AuthRepository>()));
 
   //For notifier
   sl.registerFactory(
@@ -45,7 +47,9 @@ Future<void> init() async {
   );
 
   sl.registerFactory(
-        () => AuthNotifier(login: sl(), logout: sl()),
+        () => AuthNotifier(login: sl<Login>(), logout: sl<Logout>(),
+        getCacheUser: sl<GetCacheUser>()
+        ),
   );
 
   // * Domain Layer

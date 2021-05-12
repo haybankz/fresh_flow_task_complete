@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh_flow_task/layers/presentation/notifiers/auth_notifier.dart';
 import 'package:fresh_flow_task/layers/presentation/notifiers/item_notifier.dart';
@@ -16,19 +17,19 @@ class _LoginState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 
-  AuthNotifier auth;
+  AuthNotifier _authNotifier;
   ItemNotifier _itemNotifier;
 
 
   @override
   Widget build(BuildContext context) {
-    auth = context.select((AuthNotifier value) => value);
+    _authNotifier = context.select((AuthNotifier value) => value);
     _itemNotifier = context.select((ItemNotifier value) => value);
     return Scaffold(
-      key: scaffoldKey,
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text('Login'),
       ),
@@ -64,25 +65,24 @@ class _LoginState extends State<LoginScreen> {
             ),
 
             const SizedBox(height: 20,),
-            RaisedButton(onPressed: () {
+            RaisedButton(onPressed: () async{
               if (_formKey.currentState.validate()) {
                 _showLoader(context);
 
-                auth.loginUser(_emailController.text.trim(),
+                await _authNotifier.loginUser(_emailController.text.trim(),
                     _passwordController.text.trim());
 
                 Navigator.pop(context);
 
-                final userEmail = auth.userEmail;
-                print(userEmail);
-                final error = auth.error;
+                final userEmail = _authNotifier.userEmail;
+                final error = _authNotifier.error;
                 if (userEmail != null) {
                   _itemNotifier.fetchAllItems();
-                  Navigator.push(
+                  Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (_) => ItemsScreen()));
+                      MaterialPageRoute(builder: (_) => ItemsScreen()), (route) => false);
                 } else {
-                  scaffoldKey.currentState.showSnackBar(
+                  _scaffoldKey.currentState.showSnackBar(
                       SnackBar(content: Text("$error")));
                 }
               }
@@ -95,15 +95,14 @@ class _LoginState extends State<LoginScreen> {
   }
 
   _showLoader(BuildContext context){
-    showDialog(context: context,
-        builder: (ctx) => WillPopScope(
-            onWillPop: ()async{
-              return Future.value(true);
-            },
-            child: SizedBox(
-                height: 30,
-                width: 30,
-                child: CircularProgressIndicator())),
+    showCupertinoDialog(context: context,
+        builder: (ctx) => Center(
+          child: WillPopScope(
+              onWillPop: ()async{
+                return Future.value(true);
+              },
+              child: Material(child: Text('Loading....'))),
+        ),
         barrierDismissible: false
     );
   }

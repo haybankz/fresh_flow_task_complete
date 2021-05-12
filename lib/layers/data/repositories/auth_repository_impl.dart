@@ -30,7 +30,8 @@ class AuthRepositoryImpl implements AuthRepository {
         UserCredential userCredential = await authRemoteDatasource.loginUser(
             email, password
         );
-        
+
+        print(userCredential);
 
         return await authLocalDatasource.cacheUser(userCredential.user.email);
       } on FirebaseAuthException catch (e) {
@@ -52,6 +53,11 @@ class AuthRepositoryImpl implements AuthRepository {
     }else{
       authLocalDatasource.logOutCacheUser();
     }
+  }
+
+  @override
+  bool isLoggedIn()  {
+    return authLocalDatasource.getLoggedInUser() != null;
   }
 
 }
