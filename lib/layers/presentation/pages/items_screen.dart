@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fresh_flow_task/commons/utils.dart';
 import 'package:fresh_flow_task/layers/presentation/notifiers/auth_notifier.dart';
 import 'package:fresh_flow_task/layers/presentation/notifiers/item_notifier.dart';
 import 'package:fresh_flow_task/layers/presentation/pages/login_screen.dart';
@@ -28,7 +29,11 @@ class _ItemsState extends State<ItemsScreen> {
       actions: [
         FlatButton(onPressed: ()async{
           _showLoader(context);
+
           await _authNotifier.logOut();
+
+          Utils.sendEvent("log out");
+
           Navigator.pushAndRemoveUntil(context,
               MaterialPageRoute(builder: (_) => LoginScreen()), (route) => false);
         }, child: Text("Sign out"))
@@ -57,6 +62,9 @@ class _ItemsState extends State<ItemsScreen> {
           shrinkWrap: true,
           itemBuilder: (_, index) => ListTile(
             onTap: (){
+
+              Utils.sendEvent("item view");
+
               Navigator.push(
                   context,
                   MaterialPageRoute(builder: (_) => ItemDetailScreen(item: itemList[index])));

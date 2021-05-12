@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fresh_flow_task/commons/utils.dart';
 import 'package:fresh_flow_task/injection_container.dart' as di;
 import 'package:fresh_flow_task/layers/presentation/notifiers/auth_notifier.dart';
 import 'package:fresh_flow_task/layers/presentation/notifiers/item_notifier.dart';
@@ -56,11 +57,15 @@ class _SplashState extends State<SplashScreen> {
     Future.delayed(Duration(seconds: 2), (){
 
       if(_authNotifier.isUserLoggedIn()){
+
+        Utils.sendEvent("page view");
+
         _itemNotifier.fetchAllItems();
         Navigator.pushAndRemoveUntil(context,
             MaterialPageRoute(builder: (_) => ItemsScreen()),
                 (route) => false);
       }else{
+        Utils.sendEvent("login");
         Navigator.pushAndRemoveUntil(context,
             MaterialPageRoute(builder: (_) => LoginScreen()),
                 (route) => false);

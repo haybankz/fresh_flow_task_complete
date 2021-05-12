@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 class Utils {
   static StreamTransformer transformer<T>(
@@ -14,15 +15,10 @@ class Utils {
         },
       );
 
-  static DateTime toDateTime(Timestamp value) {
-    if (value == null) return null;
 
-    return value.toDate();
-  }
 
-  static dynamic fromDateTimeToJson(DateTime date) {
-    if (date == null) return null;
 
-    return date.toUtc();
+  static sendEvent(String eventName){
+    FirebaseAnalytics().logEvent(name: 'name',parameters:null);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fresh_flow_task/commons/utils.dart';
 import 'package:fresh_flow_task/layers/presentation/notifiers/auth_notifier.dart';
 import 'package:fresh_flow_task/layers/presentation/notifiers/item_notifier.dart';
 import 'package:fresh_flow_task/layers/presentation/pages/items_screen.dart';
@@ -67,6 +68,9 @@ class _LoginState extends State<LoginScreen> {
             const SizedBox(height: 20,),
             RaisedButton(onPressed: () async{
               if (_formKey.currentState.validate()) {
+
+
+
                 _showLoader(context);
 
                 await _authNotifier.loginUser(_emailController.text.trim(),
