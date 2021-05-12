@@ -35,7 +35,20 @@ class _ItemsState extends State<ItemsScreen> {
       return ListView.builder(
         itemCount: itemList.length,
           shrinkWrap: true,
-          itemBuilder: (_, index) => Text('${itemList[index].name}'));
+          itemBuilder: (_, index) => Row(
+            children: [
+              Image.network('${itemList[index].url}'),
+              SizedBox(width: 6),
+              Column(
+                children: [
+                  Text('${itemList[index].name}'),
+                  SizedBox(height: 4),
+                  Text('${itemList[index].price}'),
+
+                ],
+              ),
+            ],
+          ));
     }else if (error != null) {
       return Container();
     } else {

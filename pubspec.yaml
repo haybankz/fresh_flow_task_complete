@@ -47,6 +47,9 @@ dependencies:
   firebase_auth: ^0.18.0
   cloud_firestore: ^0.14.4
 
+  # Network
+  data_connection_checker: ^0.3.4
+
 
 
 
@@ -54,6 +57,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  mockito: ^4.1.2
+  faker: ^1.2.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

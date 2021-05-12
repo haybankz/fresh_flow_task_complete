@@ -1,7 +1,9 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fresh_flow_task/commons/network/network_info.dart';
 import 'package:fresh_flow_task/layers/data/datasources/local_datasource.dart';
 import 'package:fresh_flow_task/layers/data/datasources/remote_datasource.dart';
 import 'package:fresh_flow_task/layers/data/repositories/item_repository_impl.dart';
@@ -38,6 +40,7 @@ Future<void> init() async {
     () => ItemRepositoryImpl(
       localDatasource: sl(),
       remoteDatasource: sl(),
+      networkInfo: sl()
     ),
   );
 
@@ -51,9 +54,14 @@ Future<void> init() async {
       () => LocalDatasourceImpl(sharedPreferences: sl()));
 
 
+
+
   // * External
   final sharedPref = await SharedPreferences.getInstance();
   sl.registerFactory(() => sharedPref);
   sl.registerLazySingleton(() => FirebaseFirestore.instance);
+  sl.registerLazySingleton(() => DataConnectionChecker());
+
+  sl.registerFactory<NetworkInfo>(() => NetworkInfoImpl(sl()));
 
 }
