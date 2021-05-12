@@ -1,5 +1,11 @@
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fresh_flow_task/commons/utils.dart';
+import 'package:fresh_flow_task/layers/presentation/notifiers/auth_notifier.dart';
 import 'package:fresh_flow_task/layers/presentation/notifiers/item_notifier.dart';
+import 'package:fresh_flow_task/layers/presentation/pages/login_screen.dart';
+import 'package:fresh_flow_task/layers/presentation/pages/item_detail_screen.dart';
 import 'package:provider/provider.dart';
 
 class ItemsScreen extends StatefulWidget {
@@ -12,13 +18,30 @@ class ItemsScreen extends StatefulWidget {
 class _ItemsState extends State<ItemsScreen> {
 
 
+  AuthNotifier _authNotifier;
+
+
   @override
   Widget build(BuildContext context) {
-    // ItemNotifier provider = Provider.of(context);
+
+    _authNotifier = context.select((AuthNotifier value) => value);
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Carts"),
-      ),
+
+      appBar: AppBar(title: Text('Carts'),
+      actions: [
+        FlatButton(onPressed: ()async{
+          _showLoader(context);
+
+          await _authNotifier.logOut();
+
+          Utils.sendEvent("log out");
+
+          Navigator.pushAndRemoveUntil(context,
+              MaterialPageRoute(builder: (_) => LoginScreen()), (route) => false);
+        }, child: Text("Sign out"))
+      ],),
+
       body: _buildScreen(),
     );
   }
@@ -37,16 +60,31 @@ class _ItemsState extends State<ItemsScreen> {
       return Center(child: Text('$error'));
     }else if(!isLoading && itemList != null){
       return ListView.separated(
-        separatorBuilder: (ctx, index) => Divider(color: Colors.grey,),
-        itemCount: itemList.length,
+
+        separatorBuilder: (_, __) => Divider(color: Colors.grey,),
+          itemCount: itemList.length,
+          padding: EdgeInsets.zero,
           shrinkWrap: true,
           itemBuilder: (_, index) => ListTile(
-            title: Text(itemList[index].name ?? ''),
-            subtitle: Text(itemList[index].price),
-            leading: Image.network('${itemList[index].url}', height: 60, width: 60,),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
+            onTap: (){
+
+              Utils.sendEvent("item view");
+
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => ItemDetailScreen(item: itemList[index])));
+            },
+
+            leading: Image.network('${itemList[index].url}',
+            width: 60, height: 60,),
+
+            title:  Text('${itemList[index].name}',
+                style: TextStyle(color: Colors.black,
+                    fontWeight: FontWeight.w400)),
+
+            subtitle:  Text('\$${itemList[index].price}',
+                style: TextStyle(color: Colors.grey)),
+
 
           ));
     }else if (error != null) {
@@ -54,5 +92,18 @@ class _ItemsState extends State<ItemsScreen> {
     } else {
       return Container();
     }
+  }
+
+  _showLoader(BuildContext context){
+    showDialog(context: context,
+        builder: (ctx) => Center(
+          child: WillPopScope(
+              onWillPop: ()async{
+                return Future.value(true);
+              },
+              child: Material(child: Text('Logging out'))),
+        ),
+        barrierDismissible: false
+    );
   }
 }
