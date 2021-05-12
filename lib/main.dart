@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fresh_flow_task/injection_container.dart' as di;
+import 'package:fresh_flow_task/layers/presentation/notifiers/auth_notifier.dart';
 import 'package:fresh_flow_task/layers/presentation/notifiers/item_notifier.dart';
+import 'package:fresh_flow_task/layers/presentation/pages/auth_screen.dart';
 import 'package:fresh_flow_task/layers/presentation/pages/items_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +17,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider<AuthNotifier>(
+          create: (_) => di.sl<AuthNotifier>(),
+        ),
+
         ChangeNotifierProvider<ItemNotifier>(
           create: (_) => di.sl<ItemNotifier>(),
         ),
@@ -37,7 +43,7 @@ class MyApp extends StatelessWidget {
           // closer together (more dense) than on mobile platforms.
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: ItemsScreen(),
+        home: LoginScreen(),
       ),
     );
   }

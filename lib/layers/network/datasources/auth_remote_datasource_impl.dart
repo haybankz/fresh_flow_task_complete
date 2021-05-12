@@ -17,6 +17,7 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
     try {
       credential = await fireAuth.signInWithEmailAndPassword(email: email, password: password);
     }catch(e){
+      print(e);
       throw ServerException();
     }
     return credential;

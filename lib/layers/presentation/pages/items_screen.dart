@@ -13,7 +13,7 @@ class _ItemsState extends State<ItemsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // ItemNotifier provider = Provider.of(context);
+
     return Scaffold(
       body: _buildScreen(),
     );
@@ -44,6 +44,7 @@ class _ItemsState extends State<ItemsScreen> {
                   Text('${itemList[index].name}'),
                   SizedBox(height: 4),
                   Text('${itemList[index].price}'),
+
 
                 ],
               ),
