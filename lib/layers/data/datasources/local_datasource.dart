@@ -4,7 +4,7 @@ abstract class LocalDatasource {
   /// Get the latest [List<ItemModel>] cached when internet was available
   ///
   /// Throws a [List<ItemMode>] if no cached data is present.
-  Future<List<ItemModel>> getItems();
+  List<ItemModel> getItems();
 
   /// Caches a [List<ItemModel>] cached when internet was available
   ///

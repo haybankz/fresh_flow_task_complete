@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:fresh_flow_task/layers/data/datasources/local_datasource.dart';
 import 'package:fresh_flow_task/layers/data/models/item_model.dart';
@@ -10,15 +12,20 @@ class LocalDatasourceImpl implements LocalDatasource{
   LocalDatasourceImpl({@required this.sharedPreferences});
 
   @override
-  Future<List<ItemModel>> cacheItemList(List<ItemModel> list) {
-    // TODO: implement cacheItemList
-    throw UnimplementedError();
+  Future<List<ItemModel>> cacheItemList(List<ItemModel> list) async{
+    String json = jsonEncode(list.map((e) => e.toJson()).toList());
+    await sharedPreferences.setString('items', json);
+
+    return list;
   }
 
   @override
-  Future<List<ItemModel>> getItems() {
-    // TODO: implement getItems
-    throw UnimplementedError();
+  List<ItemModel> getItems() {
+   String itemString = sharedPreferences.getString('items');
+   Iterable l = json.decode(itemString);
+   List<ItemModel> items = List<ItemModel>.from(l.map((model)=> ItemModel.fromJson(model)));
+
+   return items;
   }
 
 }

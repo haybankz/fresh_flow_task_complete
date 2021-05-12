@@ -1,4 +1,4 @@
-package ai.freshflow.fresh_flow_task
+package ai.freshflow
 
 import io.flutter.embedding.android.FlutterActivity
 
