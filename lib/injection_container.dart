@@ -1,6 +1,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fresh_flow_task/commons/network/network_info.dart';
@@ -20,12 +21,11 @@ final sl = GetIt.instance;
 
 Future<void> init() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp().then((value){
-    print('here');
-    debugPrint(value.options.androidClientId);
-  });
+  var value = await Firebase.initializeApp();
+  print(value.options.storageBucket);
 
-  sl.registerFactory(() => GetAllItems(itemRepository: sl()));
+
+
 
   //For notifier
   sl.registerFactory(
@@ -33,6 +33,7 @@ Future<void> init() async {
   );
 
   // * Domain Layer
+  sl.registerFactory(() => GetAllItems(itemRepository: sl()));
 
 
   // * Data Layer
@@ -47,7 +48,8 @@ Future<void> init() async {
 
   // * Network Layer
   sl.registerFactory<RemoteDatasource>(
-      () => RemoteDatasourceImpl(fireCloud: sl()));
+      () => RemoteDatasourceImpl(fireCloud: sl(),
+      fireAuth: sl()));
 
   // * Local Layer
   sl.registerFactory<LocalDatasource>(
@@ -60,6 +62,7 @@ Future<void> init() async {
   final sharedPref = await SharedPreferences.getInstance();
   sl.registerFactory(() => sharedPref);
   sl.registerLazySingleton(() => FirebaseFirestore.instance);
+  sl.registerLazySingleton(() => FirebaseAuth.instance);
   sl.registerLazySingleton(() => DataConnectionChecker());
 
   sl.registerFactory<NetworkInfo>(() => NetworkInfoImpl(sl()));

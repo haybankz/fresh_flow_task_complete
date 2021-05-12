@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           // closer together (more dense) than on mobile platforms.
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: ItemsScreen(),
+        home: MyHomePage(title: "",),
       ),
     );
   }
@@ -120,7 +120,10 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: (){
+          context.read<ItemNotifier>().fetchAllItems();
+          Navigator.push(context, MaterialPageRoute(builder: (_) => ItemsScreen()));
+        },
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.

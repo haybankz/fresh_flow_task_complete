@@ -24,7 +24,7 @@ class ItemNotifier extends ChangeNotifier {
 
     }catch(e){
 
-      error = "error";
+      error = "error while loading";
     }
 
     isLoading = false;
